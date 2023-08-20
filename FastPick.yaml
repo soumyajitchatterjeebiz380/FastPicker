@@ -1,0 +1,141 @@
+openapi: 3.0.0
+info:
+    version: 0.1.9
+    title: FastPick API Documentation
+    description : This is a REST API used to monitor customers shopping needs, list alternative items, and finally generate a map to efficienty complete their shopping with minimum time usage.
+    contact:
+        email: soumyajitchatterjeebiz380@gmail.com
+paths:
+   /shopping/management/list/api.grocery.com/management/list:
+    post:
+        tags:
+        - List  
+        summary: Insert item into customer shopping list
+        requestBody:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Item'
+        responses:
+            '200':
+                description: Successful operation
+            '404':
+                description: Item not found
+    get:
+       tags:
+        - List 
+       summary: Show all the items into the list
+       responses:
+        '200':
+            description: Successful operation
+            content:
+                application/json:
+                    schema: 
+                        type: array
+                        items:
+                            $ref: '#/components/schemas/Item'
+        '404':
+            description: List Not Found
+    delete:
+        tags:
+        - List 
+        summary: Delete an item from the list
+        requestBody:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Item'
+        responses:
+            '200':
+                description: Successful operation
+            '404':
+                description: Item not found
+    put:
+        tags:
+        - List 
+        summary: Update the item on the list
+        requestBody:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Item'
+        responses:
+            '200':
+                description: Successful operation
+            '404':
+                description: Item not found
+   /api.grocery.com/in-store/services/mst-map:
+    get:
+        tags:
+        - Maps 
+        summary: Returns a map in a mst fashion
+        responses:
+          '404':
+            description: Item not found
+          '200':
+            description: Operation Successful
+            content:
+                application/json:
+                    schema: 
+                        type: array
+                        items:
+                            $ref: '#/components/schemas/ListDetails'
+   /api.grocery.com/in-store/services/tsp-guide:
+    get:
+        summary: Return a map to pick up all items in list in shortest time fashion
+        tags:
+        - Maps 
+        description: Generates and returns the direction to take to efficiently pick up all items in list
+        responses:
+          '500':
+            description: Server Error. Please Try Again.
+          '404':
+            description: Item not found
+          '200':
+            description: Operation Successful
+            content:
+                application/json:
+                    schema: 
+                        type: array
+                        items:
+                            $ref: '#/components/schemas/ListDetails'
+     
+components:
+    schemas:
+        Item:
+            type: object
+            properties:
+                id:
+                    type: string
+                    example: AXZEDFG
+                aisle:
+                   type: string
+                   example: H4
+                name:
+                    type: string
+                    example: Flowers
+                quantity:
+                    type: integer
+                    example: 2
+        ListDetails: 
+            type: object
+            properties:
+                totalPrice:
+                    type: number
+                    description: returns the total cost of all items
+                    example: 2.04
+                tags:
+                    type: array
+                    description: returns all the unique tags of items
+                    items:
+                        type: string
+                        example: [H4, H7]
+                numberOfItems:
+                    type: integer
+                    description: returns the totl number of items in the list
+                    example: 5
+                
+
+
+                
+                    
